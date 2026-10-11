@@ -1,0 +1,2565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Philippine Teacher Lesson Plan Prompt Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f2740;
+      --navy-2: #183a5c;
+      --blue: #2b7bb9;
+      --blue-dark: #1d5c8e;
+      --gold: #f2c14e;
+      --gold-soft: #ffe9a8;
+      --bg: #f2f6fa;
+      --card: #ffffff;
+      --text: #22303f;
+      --muted: #6b7d8f;
+      --border: #dbe5ee;
+      --success: #e9f8ef;
+      --ring: rgba(43, 123, 185, .18);
+    }
+
+    * { box-sizing: border-box; }
+    /* Author display rules (e.g. flex rows) must never override [hidden]. */
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(900px 520px at 8% -12%, #e2eefb 0%, transparent 60%),
+        radial-gradient(820px 520px at 102% -6%, #fdf2d9 0%, transparent 58%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 24px;
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      padding: 34px 20px 30px;
+      background: linear-gradient(120deg, #0b2036 0%, #17456c 48%, #2a76b3 100%);
+      border-bottom: 4px solid var(--gold);
+      box-shadow: 0 16px 40px rgba(15, 39, 64, .22);
+    }
+    header::before,
+    header::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    header::before {
+      width: 460px; height: 460px; top: -210px; right: -110px;
+      background: radial-gradient(circle, rgba(242, 193, 78, .38) 0%, transparent 65%);
+    }
+    header::after {
+      width: 380px; height: 380px; bottom: -230px; left: -90px;
+      background: radial-gradient(circle, rgba(110, 195, 255, .34) 0%, transparent 65%);
+    }
+
+    header .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .hero-left { flex: 1 1 340px; min-width: 0; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(242, 193, 78, .5);
+      color: var(--gold-soft);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      backdrop-filter: blur(4px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 4vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: -.5px;
+      line-height: 1.15;
+    }
+    h1 span {
+      background: linear-gradient(90deg, var(--gold) 0%, #fff3cd 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-right {
+      flex: 0 1 420px;
+      margin: 0;
+      padding-top: 12px;
+      text-align: right;
+      color: #d6e6f5;
+      font-size: .94rem;
+      line-height: 1.65;
+      border-top: 2px solid rgba(242, 193, 78, .55);
+    }
+    .hero-right strong { color: #fff; font-weight: 700; }
+
+    /* ---------- LAYOUT ---------- */
+    main { max-width: 1100px; margin: 0 auto; padding: 26px 16px 20px; }
+
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: linear-gradient(120deg, #fff9e8, #fffdf6);
+      border: 1px solid #f0d88e;
+      border-left: 5px solid var(--gold);
+      border-radius: 12px;
+      padding: 13px 16px;
+      margin-bottom: 20px;
+      color: #5f4a10;
+      font-size: .92rem;
+      box-shadow: 0 6px 18px rgba(200, 165, 60, .12);
+    }
+    .notice-icon {
+      flex: 0 0 auto;
+      width: 24px; height: 24px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #4a3606;
+      font-size: .8rem;
+      font-weight: 800;
+    }
+    .notice p { margin: 0; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 22px 22px;
+      box-shadow: 0 12px 32px rgba(15, 39, 64, .07);
+      overflow: hidden;
+    }
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--navy) 0%, var(--blue) 55%, var(--gold) 100%);
+    }
+
+    .panel-output { position: sticky; top: 20px; }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--navy);
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -.2px;
+    }
+    .step {
+      flex: 0 0 auto;
+      width: 27px; height: 27px;
+      display: grid; place-items: center;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--blue), var(--navy-2));
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(43, 123, 185, .35);
+    }
+
+    /* ---------- FORM ---------- */
+    .field { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+
+    .field-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+      flex-wrap: wrap;
+    }
+    .field-head label { margin-bottom: 0; }
+
+    .field-tools {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+
+    .mini-btn {
+      border: 1.5px solid #d8e4ee;
+      background: #f2f7fb;
+      color: var(--blue-dark);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-family: inherit;
+      font-size: .71rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+      line-height: 1.3;
+      cursor: pointer;
+      transition: background .16s ease, border-color .16s ease, transform .16s ease, opacity .16s ease;
+    }
+    .mini-btn:hover {
+      background: #e2edf6;
+      border-color: #bcd6ea;
+      transform: translateY(-1px);
+    }
+
+    .exclude-btn {
+      width: 26px; height: 26px;
+      display: grid; place-items: center;
+      padding: 0;
+      border-radius: 8px;
+      border: 1.5px solid #e6bcbc;
+      background: #fdf3f3;
+      color: #b54545;
+      font-family: inherit;
+      font-size: .82rem;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
+    }
+    .exclude-btn:hover {
+      background: #f9dede;
+      border-color: #d99b9b;
+      transform: translateY(-1px);
+    }
+
+    .req { color: #c0392b; }
+
+    .hint {
+      display: block;
+      color: var(--muted);
+      font-size: .82rem;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1.5px solid #cfdce8;
+      border-radius: 11px;
+      padding: 11px 13px;
+      color: var(--text);
+      background: #fbfdff;
+      font: inherit;
+      font-size: .93rem;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    input:hover, select:hover, textarea:hover { border-color: #b7cbdd; }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      background: #fff;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    textarea { min-height: 88px; resize: vertical; }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%232b7bb9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 38px;
+    }
+
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .two > *, .stratgrid > * { min-width: 0; }
+    /* Labels vary in length and may wrap; bottom-align the controls so
+       paired text fields always sit on the same line. */
+    .two .field { display: flex; flex-direction: column; }
+    .two .field > input, .two .field > select, .two .field > textarea, .two .field > .chip-input { margin-top: auto; }
+
+    .checkrow {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 8px 0;
+      padding: 9px 12px;
+      border: 1.5px solid #e2eaf2;
+      border-radius: 11px;
+      background: #fafcfe;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .checkrow:hover {
+      border-color: #bcd6ea;
+      background: #f2f8fd;
+      transform: translateX(2px);
+    }
+    .checkrow input {
+      width: 19px; height: 19px;
+      margin: 2px 0 0;
+      padding: 0;
+      flex: 0 0 auto;
+      appearance: none;
+      -webkit-appearance: none;
+      border-radius: 50%;
+      border: 2px solid #9db9cf;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .checkrow input:hover { border-color: var(--blue); }
+    .checkrow input:checked {
+      border-color: var(--blue);
+      background: radial-gradient(circle, var(--blue) 0 5px, #fff 5.5px);
+      box-shadow: 0 0 0 3px var(--ring);
+    }
+    .checkrow input:focus-visible {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+    .checkrow label {
+      font-weight: 500;
+      font-size: .9rem;
+      color: var(--text);
+      margin: 0;
+      cursor: pointer;
+    }
+
+    /* ---------- LEVEL GROUP PANELS ---------- */
+    .group {
+      border: none;
+      border-top: 1.5px solid var(--border);
+      border-bottom: 1.5px solid var(--border);
+      border-radius: 0;
+      padding: 14px 22px 8px;
+      margin: 0 -22px 16px;
+      background: #fafcfe;
+    }
+    .group legend {
+      padding: 2px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--navy-2));
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+    .group > .field:last-child { margin-bottom: 8px; }
+    .group > .two:last-child > .field { margin-bottom: 8px; }
+
+    .stratgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+    @media (max-width: 480px) { .stratgrid { grid-template-columns: 1fr; } }
+
+    .counts {
+      margin-top: 10px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* ---------- CHIP INPUT ---------- */
+    .chip-input {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      align-content: flex-start;
+      gap: 7px;
+      min-height: 48px;
+      padding: 8px 11px;
+      border: 1.5px solid #cfdce8;
+      border-radius: 11px;
+      background: #fbfdff;
+      cursor: text;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .chip-input:hover { border-color: #b7cbdd; }
+    .chip-input:focus-within {
+      background: #fff;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 100%;
+      padding: 5px 6px 5px 11px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e8f3fc, #d6eaf9);
+      border: 1px solid #b6d7ee;
+      color: var(--navy);
+      font-size: .79rem;
+      font-weight: 600;
+      line-height: 1.35;
+      animation: chipIn .18s ease;
+    }
+    @keyframes chipIn {
+      from { opacity: 0; transform: scale(.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .chip-text { overflow-wrap: anywhere; }
+
+    .chip-x {
+      flex: 0 0 auto;
+      width: 17px; height: 17px;
+      display: grid; place-items: center;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(43, 123, 185, .16);
+      color: #1d5c8e;
+      font-family: inherit;
+      font-size: .6rem;
+      font-weight: 800;
+      line-height: 1;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease, transform .15s ease;
+    }
+    .chip-x:hover { background: #e05a5a; color: #fff; transform: scale(1.14); }
+
+    .chip-input .chip-entry {
+      flex: 1 1 100%;
+      min-width: 0;
+      max-width: 100%;
+      width: auto;
+      margin: 0;
+      border: 0;
+      padding: 7px 2px;
+      background: transparent;
+      box-shadow: none;
+      font-size: .86rem;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .chip-input .chip-entry:focus {
+      outline: none;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .chip-input .chip-entry::placeholder {
+      color: #93a8ba;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .chip-input.disabled {
+      background: #f2f5f8;
+      border-style: dashed;
+      border-color: #dde5ec;
+      cursor: not-allowed;
+    }
+    .chip-input.disabled .chip { opacity: .4; filter: grayscale(.55); }
+    .chip-input.disabled .chip-x { pointer-events: none; }
+    .chip-input.disabled .chip-entry { color: #a3b1bd; }
+
+    /* ---------- EXCLUDED STATE ---------- */
+    .excluded-note {
+      display: none;
+      margin-top: 7px;
+      font-size: .76rem;
+      font-weight: 600;
+      color: #a9741f;
+      background: #fff8e5;
+      border: 1px dashed #ecd08a;
+      border-radius: 8px;
+      padding: 6px 10px;
+      line-height: 1.45;
+    }
+
+    .field.excluded .excluded-note { display: block; }
+
+    .field.excluded .field-head label {
+      color: #98a7b4;
+      text-decoration: line-through;
+      text-decoration-color: rgba(152, 167, 180, .75);
+    }
+    .field.excluded .req { display: none; }
+
+    .field.excluded input,
+    .field.excluded textarea {
+      background: #f2f5f8;
+      color: #a3b1bd;
+      border-style: dashed;
+      border-color: #dde5ec;
+    }
+
+    .field.excluded .hint { opacity: .5; }
+
+    .field.excluded .mini-btn {
+      opacity: .45;
+      pointer-events: none;
+    }
+
+    .field.excluded .exclude-btn {
+      border-color: #b9d9c6;
+      background: #edf8f1;
+      color: #2b7a4b;
+    }
+    .field.excluded .exclude-btn:hover {
+      background: #dcf0e4;
+      border-color: #94c9ab;
+    }
+
+    /* ---------- VALIDATION ERROR ---------- */
+    .field-error > label,
+    .field-error .field-head label { color: #b03232; }
+    .field-error input:not([type="hidden"]):not([type="checkbox"]),
+    .field-error select,
+    .field-error textarea,
+    .field-error .chip-input,
+    .field-error .checkrow {
+      border-color: #d64545 !important;
+      box-shadow: 0 0 0 4px rgba(214, 69, 69, .14) !important;
+      background-color: #fff7f7;
+    }
+    .field-error .checkrow input[type="checkbox"] { border-color: #d64545; }
+
+    /* ---------- BUTTONS ---------- */
+    .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+
+    /* Output panel: Copy, credit, Download stacked, same size as Generate button */
+    .panel-output .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+    .panel-output #copyBtn,
+    .panel-output #downloadBtn {
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      padding: 12px 18px;
+      font-size: .92rem;
+    }
+    .panel-output .credit {
+      margin-left: 0;
+      align-self: stretch;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px 18px;
+    }
+    .panel-output .credit-sub { padding-left: 0; }
+
+    button {
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 700;
+      font-size: .92rem;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    }
+    button:active { transform: translateY(1px) scale(.99); }
+
+    .primary {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(43, 123, 185, .32);
+    }
+    .primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(43, 123, 185, .42);
+    }
+
+    .secondary {
+      background: #eef4f9;
+      color: var(--navy);
+      border: 1.5px solid #d8e4ee;
+    }
+    .secondary:hover {
+      transform: translateY(-2px);
+      background: #e2edf6;
+      border-color: #bcd6ea;
+    }
+
+    /* ---------- OUTPUT ---------- */
+    #output {
+      min-height: 520px;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(160deg, #0f2740 0%, #16344f 100%);
+      color: #d9e8f5;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      box-shadow: inset 0 0 0 1px rgba(242, 193, 78, .18);
+    }
+    #output::placeholder { color: #7d97b0; }
+    #output:focus {
+      outline: none;
+      box-shadow: inset 0 0 0 1px rgba(242, 193, 78, .5), 0 0 0 4px var(--ring);
+    }
+
+    .output-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+    .status {
+      margin-top: 12px;
+      min-height: 1.3em;
+      font-size: .87rem;
+      font-weight: 600;
+      color: #1e6b3f;
+    }
+    .status:not(:empty) {
+      background: var(--success);
+      border: 1px solid #b9e3ca;
+      border-radius: 9px;
+      padding: 8px 12px;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: .83rem;
+      margin: 18px 0 0;
+      padding-top: 14px;
+      border-top: 1px dashed #d7e3ee;
+      line-height: 1.6;
+    }
+
+    /* ---------- CREDIT ---------- */
+    .credit {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      margin-left: auto;
+      align-self: center;
+      padding: 10px 18px 11px 15px;
+      border-radius: 14px;
+      background: rgba(15, 39, 64, .94);
+      color: #e8f1f9;
+      font-size: .8rem;
+      letter-spacing: .2px;
+      border: 1px solid rgba(242, 193, 78, .55);
+      box-shadow: 0 10px 26px rgba(15, 39, 64, .3);
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease,
+                  border-color .18s ease, background .18s ease;
+    }
+    .credit:hover {
+      transform: translateY(-3px);
+      background: rgba(15, 39, 64, .99);
+      border-color: var(--gold);
+      box-shadow: 0 14px 34px rgba(15, 39, 64, .45),
+                  0 0 0 3px rgba(242, 193, 78, .18);
+    }
+    .credit:focus-visible {
+      outline: 3px solid rgba(242, 193, 78, .75);
+      outline-offset: 3px;
+    }
+
+    .credit-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: .8rem;
+      line-height: 1.3;
+    }
+    .credit-dot {
+      flex: 0 0 auto;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #fff0bd);
+      box-shadow: 0 0 10px rgba(242, 193, 78, .9);
+    }
+    .credit strong { color: var(--gold); font-weight: 800; }
+
+    .credit-sub {
+      padding-left: 17px;
+      font-size: .7rem;
+      letter-spacing: .35px;
+      color: #9fb8cf;
+      transition: color .18s ease;
+    }
+    .credit:hover .credit-sub { color: var(--gold-soft); }
+
+    .credit-arrow {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: .72rem;
+      opacity: .7;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+    .credit:hover .credit-arrow {
+      opacity: 1;
+      transform: translate(2px, -2px);
+    }
+
+    /* ---------- ENCOURAGEMENT TOAST ---------- */
+    .cheer {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 80;
+      max-width: 300px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(15, 39, 64, .96);
+      color: #fff;
+      font-size: .88rem;
+      font-weight: 600;
+      line-height: 1.45;
+      text-align: center;
+      border: 1px solid rgba(242, 193, 78, .6);
+      box-shadow: 0 12px 30px rgba(15, 39, 64, .35);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(12px) scale(.97);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .cheer.show { opacity: 1; transform: none; }
+    .cheer[hidden] { display: none; }
+    @media (max-width: 480px) {
+      .cheer { right: 10px; left: 10px; bottom: 10px; max-width: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cheer { transition: none; }
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 880px) {
+      header .wrap { flex-direction: column; }
+      .hero-right {
+        text-align: left;
+        flex: 1 1 auto;
+        max-width: 100%;
+      }
+      .layout { grid-template-columns: 1fr; }
+      .panel-output { position: static; }
+      #output { min-height: 380px; }
+    }
+
+    @media (max-width: 480px) {
+      .two { grid-template-columns: 1fr; }
+      .group { margin: 0 -16px 16px; padding: 12px 16px 8px; }
+      .panel { padding: 20px 16px; }
+      .buttons button { flex: 1 1 100%; }
+      .panel-output .buttons button,
+      .panel-output .credit { flex: none; width: 100%; }
+      .credit {
+        margin-left: 0;
+        flex: 1 1 100%;
+        align-items: center;
+        text-align: center;
+        padding: 11px 16px;
+      }
+      .credit-sub { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="hero-left">
+      <span class="badge">Philippine Teachers • Classroom-Ready • Multi-Level</span>
+      <h1>Multi-Level Lesson Plan <span>Prompt Builder</span></h1>
+    </div>
+    <p class="hero-right">
+      Prepare a practical lesson-plan prompt for a Philippine classroom. Choose the learner level, curriculum, lesson details, and the format used by your school.
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="notice">
+    <span class="notice-icon">!</span>
+    <p><strong>Before you begin:</strong> If your school has a required DLL, DLP, ILAW, or lesson-plan format, attach the actual file when using the generated prompt so the lesson follows your school’s format.</p>
+  </div>
+
+  <div class="layout">
+    <section class="panel">
+      <h2><span class="step">1</span> Lesson details</h2>
+      <form id="builderForm">
+        <div class="field">
+          <label for="eduLevel">Educational Level / Learner Category <span class="req">*</span></label>
+          <select id="eduLevel" required>
+            <option value="">Choose educational level</option>
+            <optgroup label="Early Childhood Education">
+              <option>Preschool / Early Childhood Education (ECE)</option>
+              <option>Nursery</option>
+              <option>Pre-Kindergarten</option>
+              <option>Kindergarten</option>
+            </optgroup>
+            <optgroup label="Elementary Education">
+              <option>Grade 1</option>
+              <option>Grade 2</option>
+              <option>Grade 3</option>
+              <option>Grade 4</option>
+              <option>Grade 5</option>
+              <option>Grade 6</option>
+            </optgroup>
+            <optgroup label="Junior High School">
+              <option>Grade 7</option>
+              <option>Grade 8</option>
+              <option>Grade 9</option>
+              <option>Grade 10</option>
+            </optgroup>
+            <optgroup label="Senior High School">
+              <option>Grade 11</option>
+              <option>Grade 12</option>
+            </optgroup>
+            <optgroup label="Special Needs / Inclusive Education">
+              <option>Special Needs Education (SPED) / Inclusive Education</option>
+            </optgroup>
+            <optgroup label="Alternative Learning System">
+              <option>ALS elementary-level learning</option>
+              <option>ALS junior high school-level learning</option>
+              <option>ALS senior high school-level learning</option>
+              <option>ALS basic literacy and numeracy</option>
+              <option>ALS other program</option>
+            </optgroup>
+            <optgroup label="College / Higher Education">
+              <option>College associate / diploma program</option>
+              <option>College undergraduate degree</option>
+              <option>Graduate studies / Master's degree</option>
+              <option>Doctoral studies</option>
+              <option>Professional / teacher education</option>
+              <option>College general education</option>
+              <option>Technical / vocational higher education</option>
+              <option>Other higher education program</option>
+            </optgroup>
+            <optgroup label="Technical-Vocational / Professional Training">
+              <option>Technical-vocational education and training</option>
+              <option>Competency-based training</option>
+              <option>Skills demonstration / workplace learning</option>
+              <option>Apprenticeship / supervised practice</option>
+              <option>Professional development / continuing education</option>
+              <option>Other training program</option>
+            </optgroup>
+            <optgroup label="Custom">
+              <option>Other / Custom Educational Level</option>
+            </optgroup>
+          </select>
+          <span class="hint">Changing levels shows the relevant fields below. Your entries are kept when you switch back.</span>
+        </div>
+
+        <fieldset class="group" id="panel-ece" hidden>
+          <legend>Early childhood details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="eceAge">Age group / age range</label>
+              <input id="eceAge" placeholder="e.g., 4–5 years old">
+            </div>
+            <div class="field">
+              <label for="eceStage">Developmental stage / program</label>
+              <input id="eceStage" placeholder="e.g., Nursery / daycare program">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="group" id="panel-shs" hidden>
+          <legend>Senior high details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="shsTrack">Track / strand / program</label>
+              <input id="shsTrack" placeholder="e.g., your strand / program">
+            </div>
+            <div class="field">
+              <label for="shsSemester">Semester</label>
+              <select id="shsSemester">
+                <option value="">Not specified</option>
+                <option>1st Semester</option>
+                <option>2nd Semester</option>
+                <option>Midyear / summer term</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="shsSpec">Specialization / subject group (if any)</label>
+            <input id="shsSpec" placeholder="e.g., your specialization">
+          </div>
+        </fieldset>
+
+        <fieldset class="group" id="panel-sped" hidden>
+          <legend>SPED / inclusive education details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="spedPlacement">Educational placement</label>
+              <select id="spedPlacement">
+                <option value="">Not specified</option>
+                <option>Inclusive general education classroom</option>
+                <option>Dedicated SPED classroom</option>
+                <option>Resource-room instruction</option>
+                <option>Individualized instruction</option>
+                <option>Small-group instruction</option>
+                <option>Home-based instruction</option>
+                <option>Transition / functional-life-skills instruction</option>
+                <option>Other educational placement</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="spedPlacementOther">If other placement, specify</label>
+              <input id="spedPlacementOther" placeholder="Describe the placement">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="spedAge">Chronological age / developmental level</label>
+              <input id="spedAge" placeholder="e.g., age and development">
+            </div>
+            <div class="field">
+              <label for="spedLevel">Functional learning level / prerequisite skills</label>
+              <input id="spedLevel" placeholder="e.g., starting skills">
+            </div>
+          </div>
+          <div class="field">
+            <label for="spedGoals">Individualized / IEP goals (if applicable)</label>
+            <textarea id="spedGoals" placeholder="List relevant learning goals in your own words"></textarea>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="spedStrengths">Strengths, interests, preferred activities</label>
+              <input id="spedStrengths" placeholder="e.g., interests, motivators">
+            </div>
+            <div class="field">
+              <label for="spedAccess">Accessibility requirements</label>
+              <input id="spedAccess" placeholder="e.g., access needs">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="spedComm">Communication preferences / supports</label>
+              <input id="spedComm" placeholder="e.g., communication supports">
+            </div>
+            <div class="field">
+              <label for="spedSensory">Sensory / environmental considerations</label>
+              <input id="spedSensory" placeholder="e.g., lighting, noise needs">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="spedMobility">Mobility / physical access requirements</label>
+              <input id="spedMobility" placeholder="e.g., movement needs">
+            </div>
+            <div class="field">
+              <label for="spedLiteracy">Reading, writing, numeracy, language support needs</label>
+              <input id="spedLiteracy" placeholder="e.g., skill supports needed">
+            </div>
+          </div>
+          <div class="field">
+            <label for="spedAccom">Accommodations, modifications, assistive technology</label>
+            <textarea id="spedAccom" placeholder="Distinguish accommodations from modifications where relevant"></textarea>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="spedResponse">Alternative response methods</label>
+              <input id="spedResponse" placeholder="e.g., ways to show learning">
+            </div>
+            <div class="field">
+              <label for="spedLife">Functional life skills / transition goals</label>
+              <input id="spedLife" placeholder="e.g., daily-living goals">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="spedAssess">Assessment accommodations</label>
+              <input id="spedAssess" placeholder="e.g., extra time, reader">
+            </div>
+            <div class="field">
+              <label for="spedStaff">Support personnel / co-teaching</label>
+              <input id="spedStaff" placeholder="e.g., aide, co-teacher">
+            </div>
+          </div>
+          <div class="field">
+            <label>Support-need categories (optional; describe functional needs below — labels alone never define the learner)</label>
+            <div class="stratgrid" id="spedNeeds">
+              <div class="checkrow"><input id="sn-autism" type="checkbox"><label for="sn-autism">Autism spectrum-related support needs</label></div>
+              <div class="checkrow"><input id="sn-deaf" type="checkbox"><label for="sn-deaf">Deaf / hard-of-hearing learners</label></div>
+              <div class="checkrow"><input id="sn-blind" type="checkbox"><label for="sn-blind">Blind / low-vision learners</label></div>
+              <div class="checkrow"><input id="sn-id" type="checkbox"><label for="sn-id">Intellectual disabilities</label></div>
+              <div class="checkrow"><input id="sn-sld" type="checkbox"><label for="sn-sld">Specific learning disabilities</label></div>
+              <div class="checkrow"><input id="sn-speech" type="checkbox"><label for="sn-speech">Speech / language support needs</label></div>
+              <div class="checkrow"><input id="sn-physical" type="checkbox"><label for="sn-physical">Physical / mobility-related disabilities</label></div>
+              <div class="checkrow"><input id="sn-multiple" type="checkbox"><label for="sn-multiple">Multiple disabilities</label></div>
+              <div class="checkrow"><input id="sn-attention" type="checkbox"><label for="sn-attention">Attention / executive-function / self-regulation needs</label></div>
+              <div class="checkrow"><input id="sn-gifted" type="checkbox"><label for="sn-gifted">Gifted and talented learners</label></div>
+            </div>
+            <input id="spedNeedsOther" aria-label="Other support needs" placeholder="e.g., other support needs" style="margin-top:8px">
+          </div>
+        </fieldset>
+
+        <fieldset class="group" id="panel-als" hidden>
+          <legend>ALS details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="alsStrand">Learning strand</label>
+              <input id="alsStrand" placeholder="e.g., your strand">
+            </div>
+            <div class="field">
+              <label for="alsCompetency">ALS competency / focus</label>
+              <input id="alsCompetency" placeholder="e.g., skill focus">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="alsProfile">Learner circumstances</label>
+              <input id="alsProfile" placeholder="e.g., schedule and setting">
+            </div>
+            <div class="field">
+              <label for="alsReq">Program-specific requirements</label>
+              <input id="alsReq" placeholder="e.g., session pattern">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="group" id="panel-college" hidden>
+          <legend>College / higher education details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="colInstitution">Institution / university</label>
+              <input id="colInstitution" placeholder="e.g., institution name">
+            </div>
+            <div class="field">
+              <label for="colDept">College / faculty / department</label>
+              <input id="colDept" placeholder="e.g., department name">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="colProgram">Degree program</label>
+              <input id="colProgram" placeholder="e.g., degree or program name">
+            </div>
+            <div class="field">
+              <label for="colYear">Year level</label>
+              <input id="colYear" placeholder="e.g., 1st year">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="colCode">Course code</label>
+              <input id="colCode" placeholder="e.g., official course code">
+            </div>
+            <div class="field">
+              <label for="colTitle">Course title</label>
+              <input id="colTitle" placeholder="e.g., official course title">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="colTerm">Semester / academic term</label>
+              <input id="colTerm" placeholder="e.g., 1st semester">
+            </div>
+            <div class="field">
+              <label for="colHours">Instructional hours</label>
+              <input id="colHours" type="number" min="1" max="500" placeholder="e.g., 54">
+            </div>
+          </div>
+          <div class="field">
+            <label for="colOutcomes">Course learning outcomes</label>
+            <textarea id="colOutcomes" placeholder="Paste or summarize the official course outcomes"></textarea>
+          </div>
+          <div class="two">
+            <div class="field chip-field" id="field-colPrereq">
+              <div class="field-head">
+                <label for="colPrereq-entry">Prerequisite knowledge</label>
+              </div>
+              <div class="chip-input" data-chip-for="colPrereq">
+                <input type="text" class="chip-entry" id="colPrereq-entry" autocomplete="off"
+                       placeholder="Add a prerequisite, press Enter…">
+              </div>
+              <input type="hidden" id="colPrereq">
+            </div>
+            <div class="field">
+              <label for="colAccred">Accreditation / institutional requirements</label>
+              <input id="colAccred" placeholder="e.g., if required">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="group" id="panel-tvet" hidden>
+          <legend>Technical-vocational / training details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="tvetQual">Qualification title</label>
+              <input id="tvetQual" placeholder="e.g., qualification name">
+            </div>
+            <div class="field">
+              <label for="tvetUnit">Competency unit</label>
+              <input id="tvetUnit" placeholder="e.g., unit of competency">
+            </div>
+          </div>
+          <div class="field">
+            <label for="tvetCriteria">Performance criteria</label>
+            <textarea id="tvetCriteria" placeholder="List observable performance criteria"></textarea>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="tvetDuration">Training duration</label>
+              <input id="tvetDuration" placeholder="e.g., hours, days, sessions">
+            </div>
+            <div class="field">
+              <label for="tvetEquipment">Required equipment</label>
+              <input id="tvetEquipment" placeholder="e.g., tools, materials">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="tvetSafety">Occupational safety notes</label>
+              <input id="tvetSafety" placeholder="e.g., safety gear, procedures">
+            </div>
+            <div class="field">
+              <label for="tvetAssess">Assessment requirements</label>
+              <input id="tvetAssess" placeholder="e.g., practical exam">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="group" id="panel-custom" hidden>
+          <legend>Custom level details</legend>
+          <div class="two">
+            <div class="field">
+              <label for="cusLevel">Educational level / program</label>
+              <input id="cusLevel" placeholder="e.g., your program">
+            </div>
+            <div class="field">
+              <label for="cusInstitution">Institution</label>
+              <input id="cusInstitution" placeholder="School, center, or organization (optional)">
+            </div>
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="cusProfile">Learner profile</label>
+              <input id="cusProfile" placeholder="e.g., age range, background">
+            </div>
+            <div class="field">
+              <label for="cusFramework">Curriculum framework</label>
+              <input id="cusFramework" placeholder="e.g., your curriculum">
+            </div>
+          </div>
+          <div class="field">
+            <label for="cusReq">Lesson-plan requirements</label>
+            <input id="cusReq" placeholder="e.g., format and sections required">
+          </div>
+        </fieldset>
+
+        <div class="field" id="subjectField">
+            <label for="subject">Subject / learning area / course <span class="req">*</span></label>
+          <select id="subject" required>
+            <option value="">Choose subject</option>
+            <option>Mathematics</option><option>Filipino</option><option>English</option>
+            <option>Science</option><option>Araling Panlipunan</option>
+            <option>GMRC / EsP</option><option>MAPEH</option><option>EPP / TLE</option>
+            <option>Reading and Literacy</option><option>Other / integrated subject</option>
+          </select>
+        </div>
+
+        <div class="field" id="otherSubjectField" hidden>
+          <label for="otherSubject">If “Other,” specify the subject</label>
+          <input id="otherSubject" placeholder="e.g., Mother Tongue / subject area">
+        </div>
+
+        <!-- ===== TOPIC : chip field ===== -->
+        <div class="field chip-field" id="field-topic">
+          <div class="field-head">
+            <label for="topic-entry">Subject matter / lesson topic <span class="req">*</span></label>
+          </div>
+          <div class="chip-input" data-chip-for="topic">
+            <input type="text" class="chip-entry" id="topic-entry" autocomplete="off"
+                   placeholder="Type your own and press Enter…">
+          </div>
+          <input type="hidden" id="topic">
+        </div>
+
+        <div class="field">
+          <label for="lessonTitle">Lesson title</label>
+          <input id="lessonTitle" placeholder="e.g., title as it should appear in the plan">
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="sessions">Number of sessions / days</label>
+            <input id="sessions" placeholder="e.g., 5 sessions">
+          </div>
+          <div class="field">
+            <label for="curriculum">Curriculum / framework</label>
+            <select id="curriculum">
+              <option value="">Teacher will specify</option>
+              <option>DepEd MATATAG Curriculum</option>
+              <option>Revised K to 10 curriculum applicable to this grade/subject</option>
+              <option>SPED / inclusive education framework specified by the institution</option>
+              <option>ALS curriculum / program</option>
+              <option>TESDA competency-based training framework</option>
+              <option>CHED / institutional higher education framework</option>
+              <option>Other national / institutional curriculum</option>
+              <option>Other / not specified</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="competencyCode">Official competency code (if known)</label>
+            <input id="competencyCode" placeholder="e.g., official code if verified">
+          </div>
+          <div class="field chip-field" id="field-prereq">
+            <div class="field-head">
+              <label for="prereq-entry">Prerequisite knowledge</label>
+            </div>
+            <div class="chip-input" data-chip-for="prereq">
+              <input type="text" class="chip-entry" id="prereq-entry" autocomplete="off"
+                     placeholder="Add a prerequisite, press Enter…">
+            </div>
+            <input type="hidden" id="prereq">
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="classSize">Class size / expected learners</label>
+            <input id="classSize" placeholder="e.g., 35 learners">
+          </div>
+          <div class="field">
+            <label for="minutes">Minutes per class/session</label>
+            <input id="minutes" type="number" min="15" max="240" placeholder="e.g., 60">
+          </div>
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="duration">Lesson coverage <span class="req">*</span></label>
+            <select id="duration" required>
+              <option value="">Choose duration</option>
+              <option value="Short learning activity">Short learning activity</option>
+              <option value="One class session">One class session</option>
+              <option value="Multiple sessions">Multiple sessions</option>
+              <option value="One-day lesson">One day only</option>
+              <option value="Whole-week lesson plan (five school days)">Whole week (5 school days)</option>
+              <option value="Two-week lesson plan (ten school days)">Two weeks (10 school days)</option>
+              <option value="Multi-week unit plan">Multi-week unit plan</option>
+              <option value="Semester plan">Semester plan</option>
+              <option value="Custom duration">Custom duration</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field" id="customDurationField" hidden>
+          <label for="customDuration">Describe the custom duration</label>
+          <input id="customDuration" placeholder="e.g., 3 sessions over one week">
+        </div>
+
+        <div class="two">
+          <div class="field">
+            <label for="schoolYear">School year (optional)</label>
+            <input id="schoolYear" placeholder="e.g., SY 2026–2027">
+          </div>
+          <div class="field">
+            <label for="schoolContext">School / class context (optional)</label>
+            <select id="schoolContext">
+              <option value="">Not specified</option>
+              <option>DepEd public school</option>
+              <option>Private basic education school</option>
+              <option>ALS / Community Learning Center</option>
+              <option>SPED / inclusive education setting</option>
+              <option>Other / not applicable</option>
+            </select>
+          </div>
+        </div>
+        <span class="hint">Include the school year so the lesson can use the appropriate curriculum and learning expectations.</span>
+
+        <div class="two">
+          <div class="field">
+            <label for="quarter" id="periodLabel">Term</label>
+            <select id="quarter">
+              <option value="">Not specified</option>
+              <option>Term 1</option><option>Term 2</option><option>Term 3</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="language">Lesson plan language</label>
+            <select id="language">
+              <option>English</option><option>Filipino</option><option>English and Filipino</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ===== COMPETENCY : chip field ===== -->
+        <div class="field chip-field" id="field-competency">
+          <div class="field-head">
+            <label for="competency-entry">Learning competency / code (if known)</label>
+          </div>
+          <div class="chip-input" data-chip-for="competency">
+            <input type="text" class="chip-entry" id="competency-entry" autocomplete="off"
+                   placeholder="Type the code and press Enter…">
+          </div>
+          <input type="hidden" id="competency">
+        </div>
+
+        <!-- ===== LEARNERS : chip field ===== -->
+        <div class="field chip-field" id="field-learners">
+          <div class="field-head">
+            <label for="learners-entry">Learner needs / class profile</label>
+          </div>
+          <div class="chip-input" data-chip-for="learners">
+            <input type="text" class="chip-entry" id="learners-entry" autocomplete="off"
+                   placeholder="Add a class detail and press Enter…">
+          </div>
+          <input type="hidden" id="learners">
+        </div>
+
+        <div class="field">
+          <label>Include differentiated activities for <span class="req">*</span></label>
+          <div class="checkrow"><input id="slow" type="checkbox" checked><label for="slow">Learners needing additional support (sometimes called slow learners)</label></div>
+          <div class="checkrow"><input id="average" type="checkbox" checked><label for="average">Learners working at the expected level (average)</label></div>
+          <div class="checkrow"><input id="fast" type="checkbox" checked><label for="fast">Advanced learners (fast learners)</label></div>
+        </div>
+
+        <!-- ===== STRATEGIES : chip field ===== -->
+        <div class="field chip-field" id="field-strategies">
+          <div class="field-head">
+            <label for="strategies-entry">Teaching strategies <span class="req">*</span></label>
+          </div>
+          <div class="chip-input" data-chip-for="strategies">
+            <input type="text" class="chip-entry" id="strategies-entry" autocomplete="off"
+                   placeholder="Add a strategy and press Enter…">
+          </div>
+          <input type="hidden" id="strategies">
+        </div>
+
+        <!-- ===== MATERIALS : chip field ===== -->
+        <div class="field chip-field" id="field-materials">
+          <div class="field-head">
+            <label for="materials-entry">Available materials / resources</label>
+          </div>
+          <div class="chip-input" data-chip-for="materials">
+            <input type="text" class="chip-entry" id="materials-entry" autocomplete="off"
+                   placeholder="Add a material and press Enter…">
+          </div>
+          <input type="hidden" id="materials">
+        </div>
+
+        <!-- ===== TEMPLATE NOTES : chip field ===== -->
+        <div class="field chip-field" id="field-templateNotes">
+          <div class="field-head">
+            <label for="templateNotes-entry">Template or school-specific instructions</label>
+          </div>
+          <div class="chip-input" data-chip-for="templateNotes">
+            <input type="text" class="chip-entry" id="templateNotes-entry" autocomplete="off"
+                   placeholder="Add a note and press Enter…">
+          </div>
+          <input type="hidden" id="templateNotes">
+        </div>
+
+        <div class="two">
+          <div class="field" id="techField">
+            <label for="tech">Available technology / connectivity</label>
+            <select id="tech">
+              <option value="">Not specified</option>
+              <option>Adequate devices and internet</option>
+              <option>Limited devices / shared equipment</option>
+              <option>Low or no internet connectivity</option>
+              <option>No digital technology available</option>
+              <option>Other (describe below)</option>
+            </select>
+          </div>
+          <div class="field" id="techOtherField" hidden>
+            <label for="techOther">If Other technology, describe</label>
+            <input id="techOther" placeholder="e.g., one computer only">
+          </div>
+        </div>
+
+        <!-- ===== ASSESSMENT : chip field ===== -->
+        <div class="field chip-field" id="field-assesses">
+          <div class="field-head">
+            <label for="assesses-entry">Assessment approaches</label>
+          </div>
+          <div class="chip-input" data-chip-for="assesses">
+            <input type="text" class="chip-entry" id="assesses-entry" autocomplete="off"
+                   placeholder="Add an approach and press Enter…">
+          </div>
+          <input type="hidden" id="assesses">
+        </div>
+
+        <div class="field">
+          <label for="templatePref">Required lesson-plan template</label>
+          <select id="templatePref">
+            <option>Use another attached institutional template</option>
+            <option>Use the attached ILAW template</option>
+            <option>Use a school-prescribed format described below</option>
+            <option>Use an appropriate professional format for the level</option>
+            <option>Use custom template / instructions</option>
+          </select>
+          <span class="hint">Choose the format your school actually requires (for example, DLL, DLP, ILAW, or another school template). Attach it in ChatGPT. Do not select ILAW unless you intend to use that template.</span>
+        </div>
+
+        <!-- ===== EXTRA : chip field ===== -->
+        <div class="field chip-field" id="field-extra">
+          <div class="field-head">
+            <label for="extra-entry">Additional requirements (optional)</label>
+          </div>
+          <div class="chip-input" data-chip-for="extra">
+            <input type="text" class="chip-entry" id="extra-entry" autocomplete="off"
+                   placeholder="Add a requirement and press Enter…">
+          </div>
+          <input type="hidden" id="extra">
+        </div>
+
+        <!-- ===== QUICK REQUIREMENTS : chip field ===== -->
+        <div class="field chip-field" id="field-quickreq">
+          <div class="field-head">
+            <label for="quickreq-entry">Quick requirements (optional)</label>
+          </div>
+          <div class="chip-input" data-chip-for="quickreq">
+            <input type="text" class="chip-entry" id="quickreq-entry" autocomplete="off"
+                   placeholder="Add a requirement and press Enter…">
+          </div>
+          <input type="hidden" id="quickreq">
+        </div>
+
+        <div class="buttons">
+          <button class="primary" type="submit">Generate ChatGPT Prompt</button>
+          <button class="secondary" type="reset">Clear form</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel panel-output">
+      <div class="output-head">
+        <h2><span class="step">2</span> Your enhanced ChatGPT prompt</h2>
+      </div>
+      <textarea id="output" aria-label="Generated ChatGPT prompt" placeholder="Fill in the required fields and click “Generate ChatGPT Prompt.”"></textarea>
+      <div class="buttons">
+        <button class="primary" id="copyBtn" type="button">Copy prompt</button>
+        <button class="secondary" id="downloadBtn" type="button">Download .txt</button>
+        <a class="credit"
+           href="https://www.facebook.com/4nonycrypt3d"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Developed by Clark M. Pateño — Message me for suggestion on Facebook (opens in a new tab)">
+          <span class="credit-line">
+            <span class="credit-dot" aria-hidden="true"></span>
+            Developed by: <strong>Clark M. Pateño</strong>
+            <span class="credit-arrow" aria-hidden="true">↗</span>
+          </span>
+          <span class="credit-sub">Message me for suggestion</span>
+        </a>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <div class="counts" id="counts" aria-live="polite"></div>
+      <p class="footer">Suggested workflow: complete the required fields → generate and copy the prompt → paste it into ChatGPT → attach your school-required DLL/DLP/ILAW/template and official curriculum guide or learning competency, if available → review the output with your school’s current requirements. Never submit learner-identifying or confidential information to an AI tool.</p>
+    </section>
+  </div>
+</main>
+
+<div class="cheer" id="cheer" role="status" aria-live="polite" title="Tap to dismiss" hidden></div>
+
+<script>
+(function () {
+  const form        = document.getElementById('builderForm');
+  const duration    = document.getElementById('duration');
+  const customField = document.getElementById('customDurationField');
+  const subjectSel  = document.getElementById('subject');
+  const otherField  = document.getElementById('otherSubjectField');
+  const otherInput  = document.getElementById('otherSubject');
+  const output      = document.getElementById('output');
+  const status      = document.getElementById('status');
+
+  function updateOtherSubjectVisibility() {
+    const isOther = subjectSel.value === 'Other / integrated subject';
+    otherField.hidden = !isOther;
+  }
+
+  function updateCustomVisibility() {
+    customField.hidden = duration.value !== 'Custom duration';
+  }
+
+  function updateTechVisibility() {
+    const techSel = document.getElementById('tech');
+    const isOther = techSel.value === 'Other (describe below)';
+    document.getElementById('techOtherField').hidden = !isOther;
+    /* Keep Technology full-width unless the describe box is shown. */
+    document.getElementById('techField').style.gridColumn = isOther ? '' : '1 / -1';
+  }
+
+  /* ===============================================================
+     1. CHIP FIELD CONFIGURATION
+  =============================================================== */
+  const CHIP_KEYS = ['topic', 'competency', 'learners', 'materials', 'strategies', 'assesses', 'prereq', 'colPrereq', 'templateNotes', 'extra', 'quickreq'];
+
+  const JOIN = {
+    topic: ', ',
+    competency: '; ',
+    learners: '; ',
+    materials: '; ',
+    strategies: '; ',
+    assesses: '; ',
+    prereq: '; ',
+    colPrereq: '; ',
+    templateNotes: '; ',
+    extra: '; ',
+    quickreq: '; '
+  };
+
+  /* ===============================================================
+     1b. EDUCATIONAL LEVELS + SUBJECT MAPS (no fabricated codes)
+  =============================================================== */
+  const OTHER_SUBJECT_VALUE = 'Other / integrated subject';
+
+  function levelGroup() {
+    const levelSelect = document.getElementById('eduLevel');
+    const selectedOption = levelSelect.options[levelSelect.selectedIndex];
+    const groupLabel = selectedOption && selectedOption.parentElement && selectedOption.parentElement.tagName === 'OPTGROUP'
+      ? selectedOption.parentElement.label
+      : '';
+    const v = (levelSelect.value || '');
+    /* Use the actual dropdown group so every College / Higher Education option is recognized. */
+    if (/College \/ Higher Education/i.test(groupLabel)) return 'college';
+    if (/Preschool|Nursery|Pre-Kindergarten/i.test(v)) return 'ece';
+    if (v === 'Kindergarten') return 'kinder';
+    if (/^Grade [1-6]$/.test(v)) return 'elem';
+    if (/^Grade (7|8|9|10)$/.test(v)) return 'jhs';
+    if (/^Grade 1[12]$/.test(v)) return 'shs';
+    if (/SPED|Inclusive/i.test(v)) return 'sped';
+    if (/^ALS/i.test(v)) return 'als';
+    if (/College|Graduate|Doctoral|Professional|teacher education/i.test(v)) return 'college';
+    if (/Technical|Competency|Skills|Apprenticeship|Professional development|training/i.test(v)) return 'tvet';
+    if (/Custom/i.test(v)) return 'custom';
+    return '';
+  }
+
+  const BASIC_SUBJECTS = [
+    'Mathematics', 'English', 'Filipino', 'Science', 'Araling Panlipunan',
+    'GMRC / Values Education', 'MAPEH', 'EPP / TLE', 'Reading and Literacy',
+    'Physical Education and Health', 'Technology and digital literacy',
+    'Research', 'Specialized / elective subject'
+  ];
+
+  const ECE_DOMAINS = [
+    'Language and Literacy', 'Numeracy and early mathematics',
+    'Physical and motor development', 'Social-emotional development',
+    'Cognitive development', 'Creative expression',
+    'Values and social development', 'Integrated learning experience'
+  ];
+
+  const SPED_FOCUS = [
+    'Academic skills', 'Developmental skills', 'Communication skills',
+    'Sensory skills', 'Adaptive / daily-living skills',
+    'Behavioral support', 'Social skills', 'Functional life skills'
+  ];
+
+  const ALS_STRANDS = [
+    'Communication skills', 'Critical thinking and problem solving',
+    'Sustainable use of resources / productivity', 'Development of self and community',
+    'Expanding world vision', 'Digital citizenship'
+  ];
+
+  function subjectsForGroup(g) {
+    if (g === 'ece' || g === 'kinder') return ECE_DOMAINS.slice();
+    if (g === 'sped') return SPED_FOCUS.slice();
+    if (g === 'als') return ALS_STRANDS.slice();
+    if (g === 'college' || g === 'tvet' || g === 'custom') return [];
+    return BASIC_SUBJECTS.slice();
+  }
+
+  const REQ_SUGGESTIONS = [
+    'Complete answer key',
+    'Worked solutions',
+    'Scoring rubric',
+    'Differentiated activities',
+    'Remediation',
+    'Enrichment',
+    'Homework / independent practice',
+    'Parent / caregiver support',
+    'Printable learner worksheets',
+    "Teacher's guide / facilitation notes",
+    'Reflection section',
+    'References',
+    'Editable DOCX output (if supported)',
+    'Printable PDF output (if supported)',
+    'Accessible materials',
+    'Localized Philippine examples',
+    'Low-cost / no-internet alternatives',
+    'Observation-ready documentation'
+  ];
+
+  const TOPIC_LIBRARY = {
+    'Mathematics': [
+      'Adding and subtracting fractions with unlike denominators',
+      'visual models (fraction strips and circles)',
+      'real-life word problems'
+    ],
+    'Filipino': [
+      'Pagkilala sa pangngalan at mga uri nito',
+      'paggamit ng pangngalan sa pangungusap',
+      'mga halimbawang hango sa karanasan ng mag-aaral'
+    ],
+    'English': [
+      'Identifying the main idea and supporting details',
+      'short grade-level texts',
+      'guided and independent reading tasks'
+    ],
+    'Science': [
+      'Classifying materials based on observable properties',
+      'simple hands-on investigations',
+      'real-life examples from home and school'
+    ],
+    'Araling Panlipunan': [
+      'Paghahanap ng lokasyon gamit ang mapa',
+      'mga simbolo at pananda sa mapa',
+      'pag-uugnay sa sariling komunidad'
+    ],
+    'GMRC / EsP': [
+      'Pagpapakita ng paggalang at pagmamalasakit sa kapwa',
+      'mga sitwasyong hango sa tunay na buhay',
+      'pagninilay at pagpapahalaga'
+    ],
+    'MAPEH': [
+      'Demonstrating steady beat and simple rhythmic patterns',
+      'body percussion and classroom instruments',
+      'group performance activity'
+    ],
+    'EPP / TLE': [
+      'Pagpaplano at paghahanda ng masustansiyang meryenda',
+      'paghuhugas at paghihiwa ng mga sangkap',
+      'kaligtasan at kalinisan sa paggawa'
+    ],
+    'Reading and Literacy': [
+      'Blending and segmenting sounds to read simple words',
+      'word families and decodable texts',
+      'guided oral reading practice'
+    ],
+    'Other / integrated subject': [
+      'Applying key concepts through a contextualized performance task',
+      'integrating two or more learning areas',
+      'real-life application'
+    ]
+  };
+
+  const DEFAULTS = {
+    learners: [
+      'Mixed-ability class of about 35–40 learners',
+      'Some learners need additional reading and language support',
+      'Limited access to devices and internet at home',
+      'Varied home languages and cultural backgrounds'
+    ],
+    templateNotes: [
+      'Preserve all ILAW headings, tables, and section sequence exactly as in the attached template',
+      'Follow school-prescribed time allotments and formatting',
+      'Keep the document editable for school checking'
+    ],
+    materials: [
+      'Board and writing materials',
+      'Paper, pencils, and counters/manipulatives',
+      'Printed worksheets',
+      'Projector/speaker if available',
+      'Low-cost locally available materials'
+    ],
+    strategies: [
+      'Concrete–Pictorial–Abstract (CPA)',
+      'Differentiated instruction'
+    ],
+    assesses: [
+      'Observation and anecdotal records',
+      'Oral questioning',
+      'Worksheets'
+    ],
+    quickreq: REQ_SUGGESTIONS.slice(),
+    extra: [
+      'Include an answer key with worked solutions',
+      'Include a scoring rubric',
+      'Add remediation and enrichment activities',
+      'Contextualize examples to Filipino learners',
+      'Provide an editable DOCX version if possible'
+    ]
+  };
+
+  /* ---------- dynamic suggestion builders ---------- */
+  function selectedSubjectLabel() {
+    const sel = document.getElementById('subject').value;
+    if (sel === 'Other / integrated subject') {
+      return (document.getElementById('otherSubject').value || '').trim() || 'the integrated learning area';
+    }
+    return sel || 'the learning area';
+  }
+
+  function topicChips() {
+    const key = document.getElementById('subject').value || 'Other / integrated subject';
+    const base = TOPIC_LIBRARY[key] || TOPIC_LIBRARY['Other / integrated subject'];
+    return base.slice();
+  }
+
+  function competencyChips() {
+    const subj = selectedSubjectLabel();
+    return [
+      'Demonstrate understanding of the key concepts in ' + subj,
+      'Apply the concepts accurately and independently in real-life situations',
+      'Exact competency code still to be verified in the official DepEd Curriculum Guide'
+    ];
+  }
+
+  function defaultChips(key) {
+    if (key === 'topic') return topicChips();
+    if (key === 'competency') return competencyChips();
+    return DEFAULTS[key] ? DEFAULTS[key].slice() : [];
+  }
+
+  /* ===============================================================
+     2. CHIP STATE
+  =============================================================== */
+  const chipState = { topic: [], competency: [], learners: [], materials: [], strategies: [], assesses: [], prereq: [], colPrereq: [], templateNotes: [], extra: [], quickreq: [] };
+  const touched   = { topic: false, competency: false, learners: false, materials: false, strategies: false, assesses: false, prereq: false, colPrereq: false, templateNotes: false, extra: false, quickreq: false };
+  const excluded  = new Set();
+  const EXCLUDABLE = CHIP_KEYS.filter(function (k) { return k !== 'topic'; });
+
+  /* ===============================================================
+     3. CHIP RENDERING
+  =============================================================== */
+  function chipWrap(key) {
+    return document.querySelector('.chip-input[data-chip-for="' + key + '"]');
+  }
+
+  function renderChips(key) {
+    const wrap = chipWrap(key);
+    if (!wrap) return;
+    const entry = wrap.querySelector('.chip-entry');
+    wrap.querySelectorAll('.chip').forEach(function (c) { c.remove(); });
+
+    chipState[key].forEach(function (text, index) {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+
+      const label = document.createElement('span');
+      label.className = 'chip-text';
+      label.textContent = text;
+
+      const x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'chip-x';
+      x.textContent = '✕';
+      x.title = 'Remove this suggestion from the prompt';
+      x.setAttribute('aria-label', 'Remove suggestion: ' + text);
+      x.addEventListener('click', function (e) {
+        e.stopPropagation();
+        chipState[key].splice(index, 1);
+        touched[key] = true;
+        renderChips(key);
+        syncHidden(key);
+        status.textContent = 'Removed one suggestion from “' + prettyName(key) + '”.';
+      });
+
+      chip.appendChild(label);
+      chip.appendChild(x);
+      wrap.insertBefore(chip, entry);
+    });
+
+    wrap.classList.toggle('has-chips', chipState[key].length > 0);
+    /* Editing chips resolves a flagged field immediately. */
+    const errField = wrap.closest ? wrap.closest('.field-error') : null;
+    if (errField) errField.classList.remove('field-error');
+  }
+
+  function syncHidden(key) {
+    const hidden = document.getElementById(key);
+    if (hidden) hidden.value = chipState[key].join(JOIN[key]);
+  }
+
+  function prettyName(key) {
+    return {
+      topic: 'Subject matter / lesson topic',
+      competency: 'Learning competency / code',
+      learners: 'Learner needs / class profile',
+      materials: 'Available materials / resources',
+      strategies: 'Teaching strategies',
+      assesses: 'Assessment approaches',
+      prereq: 'Prerequisite knowledge',
+      colPrereq: 'College prerequisite knowledge',
+      templateNotes: 'Template or school-specific instructions',
+      extra: 'Additional requirements',
+      quickreq: 'Quick requirements'
+    }[key] || key;
+  }
+
+  /* ===============================================================
+     4. CHIP INTERACTION (add / remove / paste / backspace)
+  =============================================================== */
+  function initChipField(key) {
+    const wrap = chipWrap(key);
+    if (!wrap) return;
+    const entry = wrap.querySelector('.chip-entry');
+
+    /* Clicking the empty area focuses the typing input */
+    wrap.addEventListener('click', function (e) {
+      if (e.target === wrap) entry.focus();
+    });
+
+    /* Enter / comma / semicolon commits a new chip */
+    entry.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ',' || e.key === ';') {
+        e.preventDefault();
+        commitEntry();
+      } else if (e.key === 'Backspace' && entry.value === '' && chipState[key].length) {
+        chipState[key].pop();
+        touched[key] = true;
+        renderChips(key);
+        syncHidden(key);
+      }
+    });
+
+    entry.addEventListener('blur', commitEntry);
+
+    /* Pasting a comma/semicolon/newline list creates several chips */
+    entry.addEventListener('paste', function (e) {
+      const clip = e.clipboardData || window.clipboardData;
+      const text = clip ? clip.getData('text') : '';
+      if (text && /[,;\n]/.test(text)) {
+        e.preventDefault();
+        text.split(/[,;\n]+/)
+            .map(function (s) { return s.trim(); })
+            .filter(Boolean)
+            .forEach(function (part) { chipState[key].push(part); });
+        touched[key] = true;
+        renderChips(key);
+        syncHidden(key);
+      }
+    });
+
+    function commitEntry() {
+      const v = entry.value.replace(/[,;\s]+$/, '').trim();
+      if (!v) { entry.value = ''; return; }
+      chipState[key].push(v);
+      touched[key] = true;
+      entry.value = '';
+      renderChips(key);
+      syncHidden(key);
+    }
+  }
+
+  /* ===============================================================
+     5. LOAD / REFRESH DEFAULTS
+  =============================================================== */
+  function loadDefaults(key, force) {
+    if (!force && touched[key]) return;
+    chipState[key] = defaultChips(key);
+    renderChips(key);
+    syncHidden(key);
+  }
+
+  function refreshAutoFields() {
+    if (!touched.topic) loadDefaults('topic', true);
+    if (!touched.competency && !excluded.has('competency')) loadDefaults('competency', true);
+  }
+
+  /* ===============================================================
+     5b. LEVEL PANELS + DYNAMIC SUBJECTS (values preserved on switch)
+  =============================================================== */
+  const LEVEL_PANELS = ['panel-ece', 'panel-shs', 'panel-sped', 'panel-als', 'panel-college', 'panel-tvet', 'panel-custom'];
+
+  function updateLevelPanels() {
+    const g = levelGroup();
+    const periodLabel = document.getElementById('periodLabel');
+    const periodSelect = document.getElementById('quarter');
+    const isCollege = g === 'college';
+    const previousPeriod = periodSelect.value;
+    periodLabel.textContent = isCollege ? 'Quarter' : 'Term';
+    periodSelect.innerHTML = '<option value="">Not specified</option>' +
+      (isCollege
+        ? '<option value="Quarter 1">Quarter 1</option><option value="Quarter 2">Quarter 2</option><option value="Quarter 3">Quarter 3</option><option value="Quarter 4">Quarter 4</option>'
+        : '<option value="Term 1">Term 1</option><option value="Term 2">Term 2</option><option value="Term 3">Term 3</option>');
+    if (Array.from(periodSelect.options).some(function (o) { return o.value === previousPeriod || o.text === previousPeriod; })) {
+      periodSelect.value = previousPeriod;
+    }
+    document.getElementById('panel-ece').hidden = !(g === 'ece' || g === 'kinder');
+    document.getElementById('panel-shs').hidden = (g !== 'shs');
+    document.getElementById('panel-sped').hidden = (g !== 'sped');
+    document.getElementById('panel-als').hidden = (g !== 'als');
+    document.getElementById('panel-college').hidden = (g !== 'college');
+    document.getElementById('panel-tvet').hidden = (g !== 'tvet');
+    document.getElementById('panel-custom').hidden = (g !== 'custom');
+  }
+
+  let lastSubjectGroup = '';
+  const subjectMemory = {};
+
+  function populateSubjects() {
+    const g = levelGroup();
+    const list = subjectsForGroup(g);
+    const sel = document.getElementById('subject');
+    const prev = sel.value;
+    /* Remember the outgoing selection so returning to a level restores it. */
+    if (lastSubjectGroup && lastSubjectGroup !== g) subjectMemory[lastSubjectGroup] = prev;
+    sel.innerHTML = '';
+    const ph = document.createElement('option');
+    ph.value = '';
+    ph.textContent = list.length ? 'Choose subject / area' : 'Type the course / competency below';
+    sel.appendChild(ph);
+    list.forEach(function (name) {
+      const o = document.createElement('option');
+      o.textContent = name;
+      sel.appendChild(o);
+    });
+    const other = document.createElement('option');
+    other.value = OTHER_SUBJECT_VALUE;
+    other.textContent = (g === 'college' || g === 'tvet' || g === 'custom')
+      ? 'Other / custom course or competency (specify below)'
+      : 'Other / Custom Subject (specify below)';
+    sel.appendChild(other);
+    function hasOption(v) {
+      return v && Array.from(sel.options).some(function (o) { return o.value === v || o.text === v; });
+    }
+    /* Restore previous selection where still applicable, else the
+       remembered selection for this level group. */
+    if (hasOption(prev)) sel.value = prev;
+    else if (hasOption(subjectMemory[g])) sel.value = subjectMemory[g];
+    lastSubjectGroup = g;
+    document.getElementById('subjectField').hidden = (g === 'college' || g === 'tvet');
+    sel.required = !(g === 'college' || g === 'tvet');
+    updateOtherSubjectVisibility();
+  }
+
+  function checkedLabels(map) {
+    return Object.keys(map).filter(function (id) {
+      const el = document.getElementById(id);
+      return el && el.checked;
+    }).map(function (id) { return map[id]; });
+  }
+
+  function getStrategies() {
+    return chipState.strategies.slice();
+  }
+
+  function isCPASelected(strategies) {
+    return strategies.some(function (s) { return /cpa|concrete.pictorial/i.test(s); });
+  }
+
+  function updateCounts() {
+    const t = output.value || '';
+    const words = t.trim() ? t.trim().split(/\s+/).length : 0;
+    document.getElementById('counts').textContent =
+      t ? (t.length + ' characters • ' + words + ' words') : '';
+  }
+
+  /* ===============================================================
+     Encouragement toast (bottom-right, auto-closes in 3 seconds)
+     5 English + 5 Tagalog + 5 Cebuano Teacher encouragements
+  =============================================================== */
+  const CHEERS = [
+    /* English */
+    'Lesson plan done? You earned that coffee break! ☕😎',
+    'Warning: your students might actually enjoy this lesson! ⚠️🎉',
+    'You do not just teach — you run a daily miracle service! ✨🏫',
+    'Multitasking level: Teacher. Nobody does it better! 🤹📚',
+    'Another day, another batch of future leaders inspired! 🎓💪',
+    /* Tagalog */
+    'Sana all kasing sipag mo, Teacher! 💪📚',
+    'Ikaw ang MVP — Most Valuable Guro! 🏆🍎',
+    'Kape ka muna, Teacher — deserve mo yan! ☕😌',
+    'Ang lesson plan mo, pang-Master Teacher na! 🌟📝',
+    'Mabuhay ka, Guro — bayani ng classroom! 🇵🇭❤️',
+    /* Cebuano */
+    'Padayon, Maam/Sir — kamaayo nimo! 💪📖',
+    'Ikaw ang pinakakusgan nga teacher! 🦸🍎',
+    'Pahuway usa, Maestra/Maestro — deserve kaayo! ☕😊',
+    'Imong leksyon, pang-champion gyud! 🏆✨',
+    'Salamat sa imong kasing-kasing nga pagtudlo! ❤️🙌'
+  ];
+  let cheerTimer = null;
+  let lastCheer = -1;
+  let cheerSnoozeUntil = 0;
+  const CHEER_SHOW_MS = 3000;
+  const CHEER_GAP_MS = 1500;
+  const CHEER_SNOOZE_MS = 60000;
+
+  function scheduleCheer(ms) {
+    if (cheerTimer) clearTimeout(cheerTimer);
+    cheerTimer = setTimeout(showCheer, ms);
+  }
+
+  function showCheer() {
+    const box = document.getElementById('cheer');
+    if (!box) return;
+    /* Snoozed by tap, or tab in background: try again later. */
+    if (Date.now() < cheerSnoozeUntil || document.hidden) { scheduleCheer(5000); return; }
+    let i;
+    do { i = Math.floor(Math.random() * CHEERS.length); } while (i === lastCheer && CHEERS.length > 1);
+    lastCheer = i;
+    box.textContent = CHEERS[i];
+    box.hidden = false;
+    /* Force reflow so the transition plays */
+    void box.offsetWidth;
+    box.classList.add('show');
+    if (cheerTimer) clearTimeout(cheerTimer);
+    cheerTimer = setTimeout(function () { hideCheer(false); }, CHEER_SHOW_MS);
+  }
+
+  function hideCheer(manual) {
+    const box = document.getElementById('cheer');
+    if (!box || box.hidden) return;
+    box.classList.remove('show');
+    if (cheerTimer) { clearTimeout(cheerTimer); cheerTimer = null; }
+    if (manual) cheerSnoozeUntil = Date.now() + CHEER_SNOOZE_MS;
+    setTimeout(function () { box.hidden = true; }, 260);
+    /* Keep rotating automatically: next pop after a short gap. */
+    scheduleCheer(manual ? CHEER_SNOOZE_MS : CHEER_GAP_MS);
+  }
+
+  /* ===============================================================
+     6. EXCLUDE / INCLUDE
+  =============================================================== */
+  function setExcluded(key, isExcluded) {
+    const field = document.getElementById('field-' + key);
+    if (!field) return;
+    const hidden = document.getElementById(key);
+    const btn    = field.querySelector('.exclude-btn');
+    const wrap   = chipWrap(key);
+    const entry  = wrap ? wrap.querySelector('.chip-entry') : null;
+
+    if (isExcluded) {
+      excluded.add(key);
+      field.classList.add('excluded');
+      if (hidden) hidden.disabled = true;
+      if (wrap) wrap.classList.add('disabled');
+      if (entry) entry.disabled = true;
+      if (btn) {
+        btn.textContent = '↺';
+        btn.title = 'Include this field in the prompt again';
+        btn.setAttribute('aria-label', 'Include this field in the generated prompt again');
+      }
+    } else {
+      excluded.delete(key);
+      field.classList.remove('excluded');
+      if (hidden) hidden.disabled = false;
+      if (wrap) wrap.classList.remove('disabled');
+      if (entry) entry.disabled = false;
+      if (btn) {
+        btn.textContent = '✕';
+        btn.title = 'Exclude this field from the prompt';
+        btn.setAttribute('aria-label', 'Exclude this field from the generated prompt');
+      }
+    }
+  }
+
+  function reportExclusionState() {
+    if (excluded.size === 0) {
+      status.textContent = 'All fields will be included in the prompt.';
+      return;
+    }
+    const list = Array.from(excluded).map(prettyName);
+    status.textContent = list.length + ' field' + (list.length > 1 ? 's' : '') +
+      ' excluded from the prompt: ' + list.join(', ') + '.';
+  }
+
+  /* ===============================================================
+     7. WIRE UP BUTTONS
+  =============================================================== */
+  document.querySelectorAll('.exclude-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const key = btn.dataset.exclude;
+      setExcluded(key, !excluded.has(key));
+      reportExclusionState();
+    });
+  });
+
+  document.querySelectorAll('.mini-btn[data-suggest]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const key = btn.dataset.suggest;
+      if (excluded.has(key)) return;
+      touched[key] = true;
+      chipState[key] = defaultChips(key);
+      renderChips(key);
+      syncHidden(key);
+      status.textContent = 'Suggestions restored for “' + prettyName(key) + '”.';
+    });
+  });
+
+  /* ===============================================================
+     8. DURATION + AUTO REFRESH
+  =============================================================== */
+  duration.addEventListener('change', updateCustomVisibility);
+
+  document.getElementById('tech').addEventListener('change', updateTechVisibility);
+
+  subjectSel.addEventListener('change', updateOtherSubjectVisibility);
+
+  document.getElementById('eduLevel').addEventListener('change', function () {
+    updateLevelPanels();
+    populateSubjects();
+    /* ILAW stays default for existing DepEd users, but is never forced on
+       other levels: auto-select a neutral format unless the user already
+       chose a template preference. */
+    const tp = document.getElementById('templatePref');
+    const g0 = levelGroup();
+    if ((g0 === 'college' || g0 === 'tvet' || g0 === 'als' || g0 === 'sped' || g0 === 'ece' || g0 === 'kinder' || g0 === 'custom')
+        && tp.value === 'Use the attached ILAW template') {
+      tp.value = 'Use an appropriate professional format for the level';
+    }
+    refreshAutoFields();
+  });
+
+  output.addEventListener('input', updateCounts);
+
+  /* Acting on a flagged field clears its highlight immediately. */
+  ['input', 'change', 'click'].forEach(function (evt) {
+    form.addEventListener(evt, function (e) {
+      const t = e.target;
+      const ff = t && t.closest ? t.closest('.field-error') : null;
+      if (ff) ff.classList.remove('field-error');
+    });
+  });
+
+  ['subject', 'otherSubject'].forEach(function (id) {
+    document.getElementById(id).addEventListener('change', refreshAutoFields);
+  });
+
+  /* ===============================================================
+     9. HELPERS
+  =============================================================== */
+  function value(id, fallback) {
+    const el = document.getElementById(id);
+    const v = (el.value || '').trim();
+    if (v) return v;
+    /* An explicitly empty fallback means "no text", so emptiness checks
+       keep working; only a missing fallback yields 'Not specified'. */
+    return (fallback === undefined || fallback === null) ? 'Not specified' : fallback;
+  }
+
+  /* Highlight the field holding a missing required control, then focus it. */
+  function flagError(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const ff = el.closest ? el.closest('.field, fieldset.group') : null;
+    if (ff) {
+      ff.classList.add('field-error');
+      if (ff.scrollIntoView) { try { ff.scrollIntoView({ block: 'center' }); } catch (e) {} }
+    }
+    try { el.focus({ preventScroll: true }); } catch (err) { try { el.focus(); } catch (e2) {} }
+  }
+
+  function clearFieldErrors() {
+    form.querySelectorAll('.field-error').forEach(function (f) { f.classList.remove('field-error'); });
+  }
+
+  /* ===============================================================
+     10. PROMPT GENERATION
+  =============================================================== */
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    clearFieldErrors();
+
+    /* --- validation (optional fields stay optional) --- */
+    const eduLevel = value('eduLevel', '');
+    if (!eduLevel) {
+      status.textContent = 'Choose an educational level first.';
+      flagError('eduLevel');
+      return;
+    }
+    const grp = levelGroup();
+
+    /* Lesson focus: topic chips, or a level-specific focus field */
+    const focusFallback = (grp === 'college') ? value('colOutcomes', '')
+      : (grp === 'tvet') ? (value('tvetUnit', '') || value('tvetCriteria', ''))
+      : (grp === 'als') ? (value('alsCompetency', '') || value('alsStrand', ''))
+      : (grp === 'sped') ? value('spedGoals', '')
+      : (grp === 'custom') ? (value('cusReq', '') || value('cusLevel', ''))
+      : '';
+    if (!chipState.topic.length && !focusFallback) {
+      status.textContent = 'Add at least one subject matter / lesson topic chip, or describe the learning focus in your level section.';
+      flagError('topic-entry');
+      return;
+    }
+
+    const chosen = [];
+    if (document.getElementById('slow').checked) chosen.push('learners needing additional support');
+    if (document.getElementById('average').checked) chosen.push('learners working at the expected level');
+    if (document.getElementById('fast').checked) chosen.push('advanced learners');
+    if (!chosen.length && (grp === 'elem' || grp === 'jhs' || grp === 'shs' || grp === 'ece' || grp === 'kinder')) {
+      status.textContent = 'Select at least one learner group.';
+      flagError('slow');
+      return;
+    }
+
+    const strategies = getStrategies();
+    if (!strategies.length) {
+      status.textContent = 'Select at least one teaching strategy.';
+      flagError('strategies-entry');
+      return;
+    }
+
+    const selectedSubject = value('subject', '');
+    let subject = selectedSubject;
+    if (selectedSubject === OTHER_SUBJECT_VALUE) {
+      subject = value('otherSubject', '');
+      if (!subject && grp !== 'college' && grp !== 'tvet') {
+        status.textContent = 'You chose “Other” — please specify the subject.';
+        flagError('otherSubject');
+        return;
+      }
+    }
+    if (!subject) {
+      if (grp === 'college') subject = (value('colCode', '') + ' ' + value('colTitle', '')).trim();
+      else if (grp === 'tvet') subject = value('tvetUnit', '');
+      else if (grp === 'als') subject = value('alsStrand', '');
+      else if (grp === 'custom') subject = value('cusLevel', '');
+      else if (grp === 'sped') subject = 'SPED / inclusive instruction';
+      else if (grp === 'ece' || grp === 'kinder') subject = 'Integrated early childhood experience';
+    }
+    if (!subject) {
+      status.textContent = 'Choose a subject / area, or specify it in your level section.';
+      flagError(grp === 'college' ? 'colCode' : grp === 'tvet' ? 'tvetUnit' : grp === 'als' ? 'alsStrand' : grp === 'custom' ? 'cusLevel' : 'subject');
+      return;
+    }
+
+    const chosenDuration = value('duration', '');
+    if (!chosenDuration) {
+      status.textContent = 'Choose a lesson coverage / duration.';
+      flagError('duration');
+      return;
+    }
+    const finalDuration = chosenDuration === 'Custom duration'
+      ? (value('customDuration', '') || 'Custom duration (please clarify)')
+      : chosenDuration;
+
+    if (document.getElementById('tech').value === 'Other (describe below)' && !value('techOther', '')) {
+      status.textContent = 'Describe the “Other” technology / connectivity option.';
+      flagError('techOther');
+      return;
+    }
+
+    function addLine(label, text) {
+      if (text && text !== 'Not specified') detail.push('- ' + label + ': ' + text);
+    }
+
+    /* --- LESSON DETAILS block, honouring exclusions; blanks skipped --- */
+    const detail = [];
+    detail.push('- Educational level: ' + eduLevel);
+    if (grp === 'ece') { addLine('Age group', value('eceAge', '')); addLine('Developmental stage / program', value('eceStage', '')); }
+    if (grp === 'shs') { addLine('Track / strand / program', value('shsTrack', '')); addLine('Semester', value('shsSemester', '')); addLine('Specialization', value('shsSpec', '')); }
+    if (grp === 'sped') {
+      let placement = value('spedPlacement', '');
+      if (placement === 'Other educational placement') placement = value('spedPlacementOther', 'Other educational placement');
+      addLine('Educational placement', placement);
+      addLine('Age / developmental level', value('spedAge', ''));
+      addLine('Functional level / prerequisite skills', value('spedLevel', ''));
+      addLine('Individualized / IEP goals', value('spedGoals', ''));
+      addLine('Strengths / interests', value('spedStrengths', ''));
+      addLine('Accessibility requirements', value('spedAccess', ''));
+      addLine('Communication preferences / supports', value('spedComm', ''));
+      addLine('Sensory / environmental considerations', value('spedSensory', ''));
+      addLine('Mobility / physical access', value('spedMobility', ''));
+      addLine('Literacy / numeracy / language supports', value('spedLiteracy', ''));
+      addLine('Accommodations / modifications / assistive technology', value('spedAccom', ''));
+      addLine('Alternative response methods', value('spedResponse', ''));
+      addLine('Functional life skills / transition goals', value('spedLife', ''));
+      addLine('Assessment accommodations', value('spedAssess', ''));
+      addLine('Support personnel / co-teaching', value('spedStaff', ''));
+      const needs = checkedLabels({
+        'sn-autism': 'autism spectrum-related support needs', 'sn-deaf': 'deaf / hard-of-hearing',
+        'sn-blind': 'blind / low-vision', 'sn-id': 'intellectual disabilities',
+        'sn-sld': 'specific learning disabilities', 'sn-speech': 'speech / language support needs',
+        'sn-physical': 'physical / mobility-related disabilities', 'sn-multiple': 'multiple disabilities',
+        'sn-attention': 'attention / executive-function / self-regulation needs',
+        'sn-gifted': 'gifted and talented'
+      });
+      const needsOther = value('spedNeedsOther', '');
+      if (needsOther) needs.push('other: ' + needsOther);
+      if (needs.length) detail.push('- Described support-need categories (functional needs govern, not labels): ' + needs.join('; '));
+    }
+    if (grp === 'als') { addLine('ALS learning strand', value('alsStrand', '')); addLine('ALS competency / focus', value('alsCompetency', '')); addLine('Learner circumstances', value('alsProfile', '')); addLine('Program requirements', value('alsReq', '')); }
+    if (grp === 'college') {
+      addLine('Institution', value('colInstitution', '')); addLine('College / department', value('colDept', ''));
+      addLine('Degree program', value('colProgram', '')); addLine('Year level', value('colYear', ''));
+      addLine('Course', ((value('colCode', '') + ' ' + value('colTitle', '')).trim()));
+      addLine('Semester / term', value('colTerm', '')); addLine('Instructional hours', value('colHours', ''));
+      addLine('Course learning outcomes', value('colOutcomes', ''));
+      addLine('Prerequisite knowledge', value('colPrereq', '')); addLine('Accreditation / institutional requirements', value('colAccred', ''));
+    }
+    if (grp === 'tvet') {
+      addLine('Qualification title', value('tvetQual', '')); addLine('Competency unit', value('tvetUnit', ''));
+      addLine('Performance criteria', value('tvetCriteria', '')); addLine('Training duration', value('tvetDuration', ''));
+      addLine('Required equipment', value('tvetEquipment', '')); addLine('Safety notes', value('tvetSafety', ''));
+      addLine('Assessment requirements', value('tvetAssess', ''));
+    }
+    if (grp === 'custom') {
+      addLine('Custom level / program', value('cusLevel', '')); addLine('Institution', value('cusInstitution', ''));
+      addLine('Learner profile', value('cusProfile', '')); addLine('Curriculum framework', value('cusFramework', ''));
+      addLine('Lesson-plan requirements', value('cusReq', ''));
+    }
+    detail.push('- Learning area / subject / course: ' + subject);
+    detail.push('- Subject matter / lesson topic: ' + (value('topic', '') || focusFallback || 'Not specified'));
+    addLine('Lesson title', value('lessonTitle', ''));
+    detail.push('- Lesson coverage: ' + finalDuration);
+    addLine('Number of sessions / days', value('sessions', ''));
+    detail.push('- Suggested minutes per class/session: ' + value('minutes', 'Use the duration specified in the template; otherwise propose a realistic duration'));
+    detail.push('- School year: ' + value('schoolYear', 'Not supplied; do not assume'));
+    detail.push('- School / class context: ' + value('schoolContext', 'Not specified'));
+    detail.push('- ' + (grp === 'college' ? 'Quarter' : 'Term') + ': ' + value('quarter', 'Not specified; determine only if supported by supplied information'));
+    detail.push('- Lesson plan language: ' + value('language', 'English'));
+    addLine('Curriculum / framework', value('curriculum', ''));
+    if (!excluded.has('competency')) {
+      const comp = value('competency', '');
+      const code = value('competencyCode', '');
+      detail.push('- Learning competency / standard / outcome: ' + (comp || code
+        ? ((comp || 'See supplied competency') + (code ? ' [Competency code: ' + code + ']' : ''))
+        : 'Not supplied; identify a suitable competency/outcome from an applicable official source if possible'));
+    }
+    addLine('Prerequisite knowledge', value('prereq', ''));
+    addLine('Class size', value('classSize', ''));
+    if (!excluded.has('learners')) {
+      detail.push('- Learner profile and needs: ' + value('learners', 'Mixed ability; provide inclusive, age-appropriate instruction'));
+    }
+    detail.push('- Teaching strategies: ' + strategies.join('; '));
+    detail.push('- Available resources: ' + value('materials', 'Use practical, low-cost and locally available resources'));
+    addLine('Technology / connectivity', (value('tech', '') === 'Other (describe below)' ? value('techOther', 'Other technology (see description)') : value('tech', '')));
+    const assessesText = value('assesses', '');
+    if (assessesText) detail.push('- Assessment approaches: ' + assessesText);
+    detail.push('- Required template: ' + value('templatePref', 'Use the attached ILAW template'));
+    if (!excluded.has('templateNotes')) {
+      detail.push('- School/template instructions: ' + value('templateNotes', 'Follow the attached template and any school-specific requirements'));
+    }
+    if (!excluded.has('extra')) {
+      const extraText = [value('extra', ''), value('quickreq', '')].filter(Boolean).join('; ');
+      detail.push('- Additional requirements: ' + (extraText || 'No additional requirements supplied'));
+    }
+
+    const useCPA = isCPASelected(strategies);
+    const roleLine = (grp === 'ece' || grp === 'kinder')
+      ? 'Act as an experienced early childhood educator in the Philippines, specializing in developmentally appropriate, play-based learning, school readiness, and inclusive care for young children.'
+      : (grp === 'sped')
+      ? 'Act as an experienced SPED / inclusive education specialist in the Philippines, specializing in individualized instruction, accessibility, respectful strengths-based support, and collaboration with families and support personnel.'
+      : (grp === 'als')
+      ? 'Act as an experienced Alternative Learning System (ALS) facilitator in the Philippines, specializing in flexible, community-based, adult- and out-of-school-youth-appropriate instruction.'
+      : (grp === 'college')
+      ? 'Act as an experienced higher education instructor in the Philippines, specializing in the stated discipline, course-outcome alignment, and practice-oriented adult teaching.'
+      : (grp === 'tvet')
+      ? 'Act as an experienced technical-vocational trainer in the Philippines, specializing in competency-based training, skills demonstration, workplace safety, and practical assessment.'
+      : (grp === 'custom')
+      ? 'Act as an experienced educator specializing in the stated program, learner profile, and institutional requirements.'
+      : 'Act as an experienced Master Teacher in the Philippine Department of Education (DepEd), specializing in ' + eduLevel + ' ' + subject + ', curriculum alignment, effective pedagogy, inclusive education, and differentiated instruction.';
+
+    const templatePref = value('templatePref', 'Use the attached ILAW template');
+    const isILAW = templatePref === 'Use the attached ILAW template';
+    const taskLine = isILAW
+      ? 'Prepare a complete, practical lesson plan for a real classroom using the details below. Use the actual ILAW template attached to this conversation as the primary format. Write in a natural, professional teacher’s voice, with specific directions, realistic examples, feasible materials, and activities a teacher can actually conduct.'
+      : 'Prepare a complete, practical lesson or training plan for a real classroom or training setting using the details below, following the required template: ' + templatePref + '. Write naturally and professionally, with specific teacher/trainer and learner actions, realistic examples, feasible materials, and activities that can actually be conducted.';
+
+    const groupsLine = chosen.length
+      ? ('Differentiate activities for: ' + chosen.join('; ') + '. Use respectful, strengths-based language. Provide scaffolding and additional support where needed without lowering essential expectations unless an individualized modification is explicitly required. Provide meaningful enrichment for learners who demonstrate mastery.')
+      : 'Differentiate instruction appropriately for the stated learner population, with suitable scaffolding, varied materials, and respectful strengths-based language. Never invent a diagnosis or presume an accommodation without a stated learner need.';
+
+    const curriculumLine = (grp === 'college')
+      ? 'Align the plan with the stated course outcomes and the applicable CHED / institutional requirements supplied above. Use the supplied course outcomes and institutional requirements naturally in the plan. Do not invent official codes or standards, and do not apply DepEd basic-education policies to higher education.'
+      : (grp === 'tvet')
+      ? 'Align the plan with the stated competency unit and performance criteria, using the supplied TESDA or institutional training requirements where applicable. Do not invent official codes or standards.'
+      : (grp === 'custom')
+      ? 'Align the plan with the stated framework and institutional requirements. Use the supplied requirements naturally and do not invent official codes or references.'
+      : 'Align the lesson with the curriculum, grade level, subject, and school year supplied. Use the learning competency and code provided by the teacher when available. Do not invent competency codes, policy numbers, or official references. Keep the lesson focused on teachable objectives and classroom activities that fit the stated learners and time.';
+
+    const objectivesLine = (grp === 'ece' || grp === 'kinder')
+      ? 'Write clear, observable, developmentally appropriate outcomes emphasizing exploration, participation, communication, and play-based evidence of learning (not written examinations unless appropriate). Use observable action verbs and specify how learning will be observed. Keep expectations realistic for the duration.'
+      : (grp === 'sped')
+      ? 'Write clear, measurable objectives aligned with relevant standards where appropriate, the stated individualized / IEP goals, functional skills, and documented support needs. Use observable action verbs, specify measurable evidence and progress-monitoring criteria, and distinguish accommodations from modifications and from alternative learning goals.'
+      : (grp === 'college')
+      ? 'Write clear, measurable objectives aligned with the course learning outcomes and appropriate disciplinary expectations, using observable action verbs and specifying how achievement will be evidenced. Keep expectations realistic for the duration.'
+      : (grp === 'tvet')
+      ? 'Write clear, measurable objectives aligned with the competency requirements and performance criteria, expressed as observable practical skills with measurable evidence. Keep expectations realistic for the duration.'
+      : 'Write clear, measurable, age-appropriate objectives aligned with the competency. Use observable action verbs and specify how achievement will be measured. Include relevant knowledge, skills, and values or dispositions where appropriate. Keep objectives realistic for the specified duration.';
+
+    const strategyDetail = useCPA
+      ? 'For CPA, explicitly sequence: (a) Concrete—learners manipulate real objects or teaching aids; (b) Pictorial—learners draw or interpret diagrams and visual models; and (c) Abstract—learners use symbols, equations, notation, rules, or independent procedures. Show the transition between stages and check conceptual understanding at each stage. If CPA is not appropriate for a particular part of the topic, adapt it sensibly and explain briefly. Apply every other selected strategy meaningfully in the actual activities as well, not just in a heading.'
+      : 'Apply each selected strategy meaningfully in the actual activities, not just in headings: ' + strategies.join('; ') + '. Ensure each approach is appropriate to the level, topic, and learners, and is reflected in teacher and learner actions. If another approach is clearly more appropriate for part of the topic, explain the adjustment briefly.';
+
+    const assessmentLine = assessesText
+      ? ('Use these assessment approaches: ' + assessesText + '. ')
+      : '';
+    const assessDetail = assessmentLine + 'Create assessment questions/tasks directly aligned with the objectives and teaching. Include clear directions and appropriate item variety. Include an answer key with worked solutions where useful, and a scoring guide or rubric where appropriate' + ((grp === 'ece' || grp === 'kinder') ? ', preferring observation-based or performance-based evidence over written examinations' : '') + '. State any proposed mastery threshold as a suggested criterion unless a verified institutional requirement applies. Include practical follow-up remediation for learners who have not yet mastered the target and enrichment for learners who have.';
+
+    const finalLine = isILAW
+      ? 'Provide the complete lesson plan using the attached ILAW template, not merely an outline or explanation.'
+      : 'Provide the complete plan using the required template/format above (' + templatePref + '), not merely an outline or explanation.';
+
+    const prompt = `${roleLine}
+
+TASK
+${taskLine}
+
+LESSON DETAILS
+${detail.join('\n')}
+
+REQUIRED LEARNER GROUPS
+${groupsLine}
+
+1. TEMPLATE FIRST — DO NOT SKIP
+First, inspect the lesson-plan template attached to this conversation, if provided. Follow its headings, section order, tables, required fields, and layout. Do not replace a supplied school template with a generic format. Use ILAW only if that template is supplied or explicitly selected. If no template is attached and one is required, ask for it; otherwise use a clear, professional format appropriate to the selected level and institution.
+
+2. CURRICULUM AND POLICY ACCURACY
+${curriculumLine}
+Use the curriculum appropriate to the stated grade, subject, term, and school year. Follow any curriculum guide, competency, code, or school instructions supplied by the teacher. Do not invent official codes, policies, standards, or references. If a specific detail is unavailable, omit it and build the lesson around the supplied topic and learning goals rather than inserting warnings or guesses.
+
+3. OBJECTIVES AND SUCCESS CRITERIA
+${objectivesLine}
+
+4. TEACHING AND LEARNING SEQUENCE
+Build a coherent lesson with clear teacher actions, learner actions, actual examples, questions, expected responses, checks for understanding, and time allotments. Include all applicable components required by the template, such as review, motivation, lesson development, guided practice, independent application, generalization, assessment, remediation/enrichment, assignment, and reflection. Do not insert sections that conflict with the template. For a multi-day plan, organize activities by day/session, show progression, and avoid repeating the same lesson without a learning purpose.
+
+5. APPLY THE SELECTED STRATEGIES APPROPRIATELY
+Use the selected strategies in the actual activities, not just in headings. ${strategyDetail}
+
+6. DIFFERENTIATED AND INCLUSIVE INSTRUCTION
+${(grp === 'sped')
+  ? 'For the learner, specify: the actual task and directions; materials and accessibility supports; teaching steps; scaffolding and prompts; communication and response options; expected output or performance; assessment method; and progress-monitoring criteria. Use respectful, strengths-based language throughout. Never invent a diagnosis or presume an accommodation is necessary without a relevant learner need.'
+  : `For each selected learner group, specify:
+- The actual task and directions.
+- Materials or visual supports.
+- Level of scaffolding and teacher guidance.
+- Expected learner output.
+- How learning will be checked.
+Ensure all groups work toward the same essential competency while allowing suitable variation in support, complexity, pace, and independence, unless an individualized modification or alternative goal is explicitly required. Include flexible grouping or adjustment based on evidence of learner understanding where appropriate.`}
+
+7. ASSESSMENT
+${assessDetail}
+
+8. MATERIALS, INCLUSION, AND CONTEXT
+Use available resources and realistic classroom conditions. Include accessible alternatives if devices, internet, or expensive materials are unavailable. Account for limited connectivity, affordability, and accessibility. Contextualize examples to learners' lives and the Philippine setting when suitable. Ensure language, reading load, and tasks are appropriate to the level.
+
+9. TIME AND INTERNAL CONSISTENCY
+Make time allocations add up to the available session time. For a multi-day plan, total each day's time separately. Ensure objectives, activities, materials, assessment, and answer key agree with one another. Check all subject-specific facts, calculations, spelling, and grammar.
+
+10. REFLECTION AND HONESTY
+Write the plan as a real teacher’s working document: clear, natural, specific, and ready to use. Leave post-lesson reflection results, learner scores, attendance, and actual outcomes blank for the teacher to complete after the lesson. Do not claim the lesson has already been taught.
+
+FINAL OUTPUT
+${finalLine} If document creation is available, produce an editable Word (.docx) version that preserves the template layout as closely as possible. Otherwise, provide the complete formatted content and explain the limitation. Include any worksheets, answer keys, rubrics, and references needed for classroom use. Do not promise file creation unless the receiving environment supports it.
+
+Before presenting the plan, check that the activities are realistic for an actual classroom, the teacher and learner actions are clear, timings add up, examples and assessment match the objectives, and the document is complete. Keep the writing natural and professional, as a teacher would prepare it for classroom use. Do not add AI-related statements, verification labels, disclaimers, or commentary about how the plan was produced.
+
+If essential information or the template is missing, ask only the necessary concise clarifying questions before proceeding. Do not ask me to repeat information already supplied here or in the attachment.`;
+
+    output.value = prompt;
+    updateCounts();
+    status.textContent = 'Prompt generated. Review it, then copy or download it.' +
+      (excluded.size ? ' (' + excluded.size + ' field' + (excluded.size > 1 ? 's' : '') + ' excluded.)' : '');
+    output.focus();
+  });
+
+  /* ===============================================================
+     11. COPY / DOWNLOAD
+  =============================================================== */
+  document.getElementById('copyBtn').addEventListener('click', async function () {
+    if (!output.value.trim()) {
+      status.textContent = 'Generate the prompt first.';
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(output.value);
+      status.textContent = 'Prompt copied to clipboard.';
+    } catch (e) {
+      output.focus();
+      output.select();
+      status.textContent = 'Clipboard access was blocked. The prompt is selected; press Ctrl+C to copy.';
+    }
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', function () {
+    if (!output.value.trim()) {
+      status.textContent = 'Generate the prompt first.';
+      return;
+    }
+    const blob = new Blob([output.value], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'DepEd-Lesson-Plan-ChatGPT-Prompt.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    status.textContent = 'Prompt text file downloaded.';
+  });
+
+  /* ===============================================================
+     12. RESET
+  =============================================================== */
+  form.addEventListener('reset', function (e) {
+    let touchedAny = false;
+    form.querySelectorAll('input, textarea, select').forEach(function (el) {
+      if (el.type === 'checkbox') { if (el.checked !== el.defaultChecked) touchedAny = true; }
+      else if ((el.value || '') !== (el.defaultValue || '')) touchedAny = true;
+    });
+    if ((touchedAny || output.value) && !window.confirm('Clear the form and the generated prompt?')) {
+      e.preventDefault();
+      return;
+    }
+    setTimeout(function () {
+      output.value = '';
+      updateCustomVisibility();
+      updateTechVisibility();
+      updateOtherSubjectVisibility();
+      updateLevelPanels();
+      populateSubjects();
+      status.textContent = '';
+      updateCounts();
+
+      EXCLUDABLE.forEach(function (key) { setExcluded(key, false); });
+      CHIP_KEYS.forEach(function (key) { touched[key] = false; });
+      CHIP_KEYS.forEach(function (key) { loadDefaults(key, true); });
+
+      reportExclusionState();
+    }, 0);
+  });
+
+  /* ===============================================================
+     13. INIT
+  =============================================================== */
+  CHIP_KEYS.forEach(initChipField);
+  CHIP_KEYS.forEach(function (key) { loadDefaults(key, true); });
+  updateLevelPanels();
+  populateSubjects();
+  updateCustomVisibility();
+  updateTechVisibility();
+  updateOtherSubjectVisibility();
+  updateCounts();
+  reportExclusionState();
+  document.getElementById('cheer').addEventListener('click', function () { hideCheer(true); });
+  setTimeout(showCheer, 1500);
+})();
+</script>
+</body>
+</html>
